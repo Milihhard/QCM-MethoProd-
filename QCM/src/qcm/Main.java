@@ -5,6 +5,14 @@
  */
 package qcm;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Emilien
@@ -16,7 +24,26 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int test;
+        try {
+            Class.forName("org.sqlite.JDBC").newInstance();
+            Connection c = DriverManager.getConnection("jdbc:sqlite:src\\res\\QCM.sqlite");
+            Statement st = c.createStatement();
+            ResultSet rs;
+            //rs = st.executeQuery("INSERT INTO Etudiant(identifiant, prenom, nom, mdpetu) VALUES (1,'Emilien','Nicolas','test');");
+            //rs = st.executeQuery("INSERT INTO Etudiant(identifiant, prenom, nom, mdpetu) VALUES (2,'Axel','Turlier','test');");
+
+            //rs = st.executeQuery("DELETE FROM etudiant WHERE prenom like 'Emilien';");
+            rs = st.executeQuery("SELECT * FROM etudiant");
+            int i = 0;
+
+            while (rs.next()) {
+                System.out.println(rs.getString("prenom"));
+                i++;
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Mauvaise connection");
+        }
     }
-    
+
 }
