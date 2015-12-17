@@ -5,10 +5,13 @@
  */
 package qcm;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Axel
  */
-public class Fenetre {
+public class Fenetre extends JFrame{
     
 }
