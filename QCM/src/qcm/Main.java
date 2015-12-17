@@ -44,6 +44,7 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Mauvaise connection");
         }
+        System.out.println("test");
     }
 
 }
