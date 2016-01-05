@@ -31,10 +31,18 @@ public class Main {
             ResultSet rs;
             //rs = st.executeQuery("INSERT INTO Etudiant(identifiant, prenom, nom, mdpetu) VALUES (1,'Emilien','Nicolas','test');");
             //rs = st.executeQuery("INSERT INTO Etudiant(identifiant, prenom, nom, mdpetu) VALUES (2,'Axel','Turlier','test');");
+            //rs = st.executeQuery("INSERT INTO Enseignant(identifiantEns, prenom, nom, mdp) VALUES (3,'Axxxxxxel','Tuturlier','test');");
 
             //rs = st.executeQuery("DELETE FROM etudiant WHERE prenom like 'Emilien';");
-            rs = st.executeQuery("SELECT * FROM etudiant");
+            rs = st.executeQuery("SELECT * FROM Etudiant");
             int i = 0;
+
+            while (rs.next()) {
+                System.out.println(rs.getString("prenom"));
+                i++;
+            }
+            rs = st.executeQuery("SELECT * FROM Enseignant");
+            i = 0;
 
             while (rs.next()) {
                 System.out.println(rs.getString("prenom"));
@@ -45,6 +53,11 @@ public class Main {
             System.out.println("Mauvaise connection");
         }
         System.out.println("test");
+        
+        SQL.ChargerSQL("src\\res\\QCM.sqlite");
+        
+        QCMFrame c = new QCMFrame();
+        c.setVisible(true);
     }
 
 }
