@@ -26,7 +26,7 @@ import user.Utilisateur;
  */
 public class Connexion extends JDialog implements ActionListener, KeyListener {
 
-    private JLabel utilisateur;
+    private JLabel utilisateur, signal;
     private JTextField t_utilisateur;
     private JLabel mdp;
     private JPasswordField t_mdp;
@@ -40,12 +40,12 @@ public class Connexion extends JDialog implements ActionListener, KeyListener {
         pano = new JPanel();
 
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         utilisateur = new JLabel("Nom d'utilisateur : ");
         t_utilisateur = new JTextField();
         mdp = new JLabel("Mot de passe : ");
         t_mdp = new JPasswordField();
         connexion = new JButton("Se connecter");
+        signal = new JLabel("");
 
         GridBagConstraints contraintes = new GridBagConstraints();
         init();
@@ -70,12 +70,15 @@ public class Connexion extends JDialog implements ActionListener, KeyListener {
         this.add(t_mdp, contrainte);
         contrainte.gridy++;
         this.add(connexion, contrainte);
+        contrainte.gridx++;
+        this.add(signal, contrainte);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == connexion) {
+            System.out.println("niah");
             connect();
         }
     }
@@ -92,23 +95,28 @@ public class Connexion extends JDialog implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
-        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             connect();
         }
     }
-    
-    public void connect(){
-            if (t_utilisateur.getText().equals("42") && t_mdp.getText().equals("admin")) {
-                user = new Utilisateur(42, "Some", "One", Utilisateur.typeUser.Admin);
-            } else {
-                user = SQL.rechercheUtilisateur(Integer.parseInt(t_utilisateur.getText()), t_mdp.getText());
-            }
-            if (user != null) {
-                this.setVisible(false);
-            }
+
+    public void connect() {
+        System.out.println("niah");
+        if (t_utilisateur.getText().equals("42") && t_mdp.getText().equals("admin")) {
+            user = new Utilisateur(42, "Some", "One", Utilisateur.typeUser.Admin);
+        } else {
+            user = SQL.rechercheUtilisateur(Integer.parseInt(t_utilisateur.getText()), t_mdp.getText());
+        }
+        System.out.println("user: " + user);
+        if (user != null) {
+            this.setVisible(false);
+        } else {
+            //PopupMauvaiseConnexion popup = new PopupMauvaiseConnexion(this);
+            this.pack();
+        }
     }
-    
+
     public Utilisateur showDialog() {
         this.setVisible(true);
         //System.out.println("id: " + user.getId());
