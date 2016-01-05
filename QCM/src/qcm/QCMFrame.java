@@ -155,10 +155,12 @@ public class QCMFrame extends JFrame implements ActionListener {
         listeQCMprof = new ArrayList();
         listeQCMprof.add(new QCMProf("Rouflaquettes"));
         listeQCMprof.add(new QCMProf("Raclette"));
+        contrainte.insets = new Insets(10, 5, 5, 5);
         for(int i = 0; i < listeQCMprof.size(); i++){
-            contrainte.gridy++;
+            contrainte.gridx++;
             this.add(listeQCMprof.get(i).pan,contrainte);
         }
+        contrainte.insets = new Insets(0, 0, 0, 0);
         creer = new JButton("Créer un QCM");
         contrainte.gridx = 1;
         contrainte.gridy = 1;
