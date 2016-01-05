@@ -33,15 +33,18 @@ public class QCMFrame extends JFrame implements ActionListener {
     private JLabel welcome;
     Utilisateur user;
     JPanel pano;
+    JButton deconnexion;
 
     //admin
     JButton ajoutAdmin;
     JLabel[] signalAdmin;
 
     //enseignant
-    
+    ArrayList<QCMProf> listeQCMprof;
+    JButton creer;
     //etudiant
     ArrayList<QCMEtudiant> listeQCMetudiant;
+    
     
     public class QCMEtudiant{
         
@@ -62,8 +65,34 @@ public class QCMFrame extends JFrame implements ActionListener {
             contrainte.gridy ++;
             pan.add(enter, contrainte);
         }
+        
+        
     }
-    
+    public class QCMProf{
+        JPanel pan;
+        JLabel title;
+        JButton voir;
+        JButton edit;
+
+        public QCMProf(String str){
+            pan = new JPanel();
+            pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0,0,0)));
+            title = new JLabel(str);
+            voir = new JButton("Voir le QCM");
+            edit = new JButton("Modifier/Supprimer");
+            GridBagConstraints contraintes = new GridBagConstraints();
+            pan.setLayout(new GridBagLayout());
+            contraintes.gridx = 0;
+            contraintes.gridy = 0;
+            pan.add(title, contraintes);
+            contraintes.gridy++;
+            pan.add(voir, contraintes);
+            contraintes.gridy++;
+            pan.add(edit, contraintes);
+        }
+
+            
+    }
     public QCMFrame() {
         this.setTitle("QCM");
         pano = new JPanel();
@@ -118,7 +147,18 @@ public class QCMFrame extends JFrame implements ActionListener {
     }
 
     private void initEnseignant(GridBagConstraints contrainte) {
-
+        listeQCMprof = new ArrayList();
+        listeQCMprof.add(new QCMProf("Rouflaquettes"));
+        listeQCMprof.add(new QCMProf("Raclette"));
+        for(int i = 0; i < listeQCMprof.size(); i++){
+            contrainte.gridy++;
+            this.add(listeQCMprof.get(i).pan,contrainte);
+        }
+        creer = new JButton("Créer un QCM");
+        contrainte.gridx = 1;
+        contrainte.gridy = 1;
+        this.add(creer, contrainte);
+        
     }
 
     private void initEtudiant(GridBagConstraints contrainte) {
