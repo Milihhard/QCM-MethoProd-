@@ -29,7 +29,6 @@ import user.Utilisateur;
 public class QCMFrame extends JFrame implements ActionListener {
 
     //global
-    
     private JLabel welcome;
     Utilisateur user;
     JPanel pano;
@@ -40,19 +39,19 @@ public class QCMFrame extends JFrame implements ActionListener {
     JLabel[] signalAdmin;
 
     //enseignant
+
     ArrayList<QCMProf> listeQCMprof;
     JButton creer;
     //etudiant
     ArrayList<QCMEtudiant> listeQCMetudiant;
-    
-    
-    public class QCMEtudiant{
-        
+
+    public class QCMEtudiant {
+
         JPanel pan;
         JLabel title;
         JButton enter;
-        
-        public QCMEtudiant(String str){
+
+        public QCMEtudiant(String str) {
             pan = new JPanel();
             pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             title = new JLabel(str);
@@ -62,7 +61,7 @@ public class QCMFrame extends JFrame implements ActionListener {
             contrainte.gridx = 0;
             contrainte.gridy = 0;
             pan.add(title, contrainte);
-            contrainte.gridy ++;
+            contrainte.gridy++;
             pan.add(enter, contrainte);
         }
         
@@ -93,6 +92,7 @@ public class QCMFrame extends JFrame implements ActionListener {
 
             
     }
+
     public QCMFrame() {
         this.setTitle("QCM");
         pano = new JPanel();
@@ -121,6 +121,9 @@ public class QCMFrame extends JFrame implements ActionListener {
                     initEtudiant(contrainte);
                     break;
             }
+        } else {
+            this.setVisible(false);
+            this.dispose();
         }
         this.pack();
     }
@@ -167,7 +170,7 @@ public class QCMFrame extends JFrame implements ActionListener {
         listeQCMetudiant.add(new QCMEtudiant("niah"));
         listeQCMetudiant.add(new QCMEtudiant("ouais"));
         listeQCMetudiant.add(new QCMEtudiant("pouet"));
-        
+
         contrainte.gridy++;
         this.add(listeQCMetudiant.get(0).pan, contrainte);
         contrainte.gridx++;
