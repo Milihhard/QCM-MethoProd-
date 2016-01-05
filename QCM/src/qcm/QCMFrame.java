@@ -61,8 +61,10 @@ public class QCMFrame extends JFrame implements ActionListener {
             pan.setLayout(new GridBagLayout());
             contrainte.gridx = 0;
             contrainte.gridy = 0;
+            contrainte.insets = new Insets(10, 5, 5, 10);
             pan.add(title, contrainte);
-            contrainte.gridy ++;
+            contrainte.insets = new Insets(10, 5, 20, 5);
+            contrainte.gridy++;
             pan.add(enter, contrainte);
         }
         
@@ -172,11 +174,13 @@ public class QCMFrame extends JFrame implements ActionListener {
         listeQCMetudiant.add(new QCMEtudiant("pouet"));
 
         contrainte.gridy++;
+        contrainte.insets = new Insets(10, 5, 5, 5);
         this.add(listeQCMetudiant.get(0).pan, contrainte);
         contrainte.gridx++;
         this.add(listeQCMetudiant.get(1).pan, contrainte);
         contrainte.gridx++;
         this.add(listeQCMetudiant.get(2).pan, contrainte);
+        contrainte.insets = new Insets(0, 0, 0, 0);
     }
 
     @Override
