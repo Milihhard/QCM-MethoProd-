@@ -5,15 +5,21 @@
  */
 package qcm;
 
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import user.Utilisateur;
 
 /**
@@ -35,8 +41,27 @@ public class QCMFrame extends JFrame implements ActionListener {
     //enseignant
     
     //etudiant
+    ArrayList<QCMEtudiant> listeQCMetudiant;
+    
     public class QCMEtudiant{
         
+        JPanel pan;
+        JLabel title;
+        JButton enter;
+        
+        public QCMEtudiant(String str){
+            pan = new JPanel();
+            pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            title = new JLabel(str);
+            enter = new JButton("Remplir le QCM");
+            GridBagConstraints contrainte = new GridBagConstraints();
+            pan.setLayout(new GridBagLayout());
+            contrainte.gridx = 0;
+            contrainte.gridy = 0;
+            pan.add(title, contrainte);
+            contrainte.gridy ++;
+            pan.add(enter, contrainte);
+        }
     }
     
     public QCMFrame() {
@@ -98,6 +123,17 @@ public class QCMFrame extends JFrame implements ActionListener {
 
     private void initEtudiant(GridBagConstraints contrainte) {
 
+        listeQCMetudiant = new ArrayList();
+        listeQCMetudiant.add(new QCMEtudiant("niah"));
+        listeQCMetudiant.add(new QCMEtudiant("ouais"));
+        listeQCMetudiant.add(new QCMEtudiant("pouet"));
+        
+        contrainte.gridy++;
+        this.add(listeQCMetudiant.get(0).pan, contrainte);
+        contrainte.gridx++;
+        this.add(listeQCMetudiant.get(1).pan, contrainte);
+        contrainte.gridx++;
+        this.add(listeQCMetudiant.get(2).pan, contrainte);
     }
 
     @Override
