@@ -90,7 +90,7 @@ public class SQL {
 
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
             System.out.println("bug");
         }
     }
@@ -109,9 +109,9 @@ public class SQL {
 
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
             System.out.println("bug");
-            
+
         }
 
     }
@@ -122,7 +122,7 @@ public class SQL {
 
         } catch (SQLException e) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "Erreur : "+e);
+            JOptionPane.showMessageDialog(null, "Erreur : " + e);
             return null;
         }
 
@@ -147,7 +147,7 @@ public class SQL {
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
             return null;
         }
     }
@@ -163,7 +163,7 @@ public class SQL {
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
             return true;
         }
     }
@@ -181,19 +181,46 @@ public class SQL {
             System.out.println(requete);
             lien.executeQuery(requete);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
         }
     }
-    
-    public static String addQCM(int identifiantP, String titre){
-        try{
+
+    public static String addQCM(int identifiantP, String titre) {
+        try {
             lien = cnx.createStatement();
-            String requete = "Insert INTO QCM (identifiantEns, titre) Values (\""+identifiantP+"\",\""+titre+"\")";
+            String requete = "Insert INTO QCM (identifiantEns, titre) Values (\"" + identifiantP + "\",\"" + titre + "\")";
             lien.executeQuery(requete);
-            return lien.executeQuery("Select id From QCM WHERE identifiantEns = "+identifiantP).toString();
-        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+            return lien.executeQuery("Select id From QCM WHERE identifiantEns = " + identifiantP).toString();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
         }
         return "N0N";
+    }
+
+    public static QCM recherchQCMbyUserId(int idUser) {
+        /*
+        try {
+            ResultSet rs = lien.executeQuery("Select * from QCM where identifiant like \"" + idUser + "\"");
+            rs.next();
+            if (rs.getRow() != 0) {
+                return new Utilisateur(id, rs.getString("prenom"), rs.getString("nom"), Utilisateur.typeUser.Etudiant);
+            } else {
+                rs = lien.executeQuery("Select * from Enseignant where identifiantEns like \"" + id + "\" AND mdp like \"" + mdp + "\"");
+                rs.next();
+                if (rs.getRow() != 0) {
+                    return new Utilisateur(id, rs.getString("prenom"), rs.getString("nom"), Utilisateur.typeUser.Enseignant);
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
+            return null;
+                
+        }
+          */
+        return null;
     }
 }
