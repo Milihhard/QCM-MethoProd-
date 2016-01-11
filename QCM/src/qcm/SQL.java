@@ -197,30 +197,20 @@ public class SQL {
         return "N0N";
     }
 
-    public static QCM recherchQCMbyUserId(int idUser) {
-        /*
+    public static ArrayList<QCM> recherchQCMbyUserId(int idUser) {
+        ArrayList<QCM> retour = new ArrayList();
         try {
-            ResultSet rs = lien.executeQuery("Select * from QCM where identifiant like \"" + idUser + "\"");
-            rs.next();
-            if (rs.getRow() != 0) {
-                return new Utilisateur(id, rs.getString("prenom"), rs.getString("nom"), Utilisateur.typeUser.Etudiant);
-            } else {
-                rs = lien.executeQuery("Select * from Enseignant where identifiantEns like \"" + id + "\" AND mdp like \"" + mdp + "\"");
-                rs.next();
-                if (rs.getRow() != 0) {
-                    return new Utilisateur(id, rs.getString("prenom"), rs.getString("nom"), Utilisateur.typeUser.Enseignant);
-                } else {
-                    return null;
-                }
+            ResultSet rs = lien.executeQuery("SELECT * FROM EtuQcm eq INNER JOIN Qcm   q ON eq. id = q.id where identifiant = " + idUser);
+            while (rs.next()){
+                retour.add(new QCM(rs.getString("title"), rs.getInt("id"), rs.getFloat("note")));            
             }
+            return retour;
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
             JOptionPane.showMessageDialog(null, "Erreur : " + ex);
             return null;
-                
+
         }
-          */
-        return null;
     }
 }

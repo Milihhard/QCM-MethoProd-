@@ -13,10 +13,12 @@ public class QCM {
     private String title;
     private int ID;
     private int idEns;
+    private float note;
     
-    public QCM(String title , int ID ){
+    public QCM(String title , int ID , float note){
         this.title=title;
         this.ID=ID;
+        this.note = note;
     }
     
     public String getTitle(){
@@ -42,4 +44,10 @@ public class QCM {
     public void setIdEns(int idEns){
         this.idEns=idEns;
     }
+
+    public float getNote() {
+        return note;
+    }
+    
+    
 }
