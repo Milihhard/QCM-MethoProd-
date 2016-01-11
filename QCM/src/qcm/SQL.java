@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import user.Utilisateur;
 
 /*
@@ -89,6 +90,7 @@ public class SQL {
 
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
             System.out.println("bug");
         }
     }
@@ -107,6 +109,7 @@ public class SQL {
 
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
             System.out.println("bug");
             
         }
@@ -119,6 +122,7 @@ public class SQL {
 
         } catch (SQLException e) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erreur : "+e);
             return null;
         }
 
@@ -143,6 +147,7 @@ public class SQL {
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
             return null;
         }
     }
@@ -158,6 +163,7 @@ public class SQL {
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
             return true;
         }
     }
@@ -175,6 +181,19 @@ public class SQL {
             System.out.println(requete);
             lien.executeQuery(requete);
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
         }
+    }
+    
+    public static String addQCM(int identifiantP, String titre){
+        try{
+            lien = cnx.createStatement();
+            String requete = "Insert INTO QCM (identifiantEns, titre) Values (\""+identifiantP+"\",\""+titre+"\")";
+            lien.executeQuery(requete);
+            return lien.executeQuery("Select id From QCM WHERE identifiantEns = "+identifiantP).toString();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erreur : "+ex);
+        }
+        return "N0N";
     }
 }
