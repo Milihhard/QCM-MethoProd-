@@ -194,13 +194,11 @@ public class QCMFrame extends JFrame implements ActionListener {
          listeQCMetudiant.add(new QCMEtudiant("ouais", null));
          listeQCMetudiant.add(new QCMEtudiant("pouet", (float) 10.5));
          */
-
+        //contrainte.anchor = GridBagConstraints.BOTH;
         contrainte.gridy++;
         contrainte.insets = new Insets(10, 5, 5, 5);
+        contrainte.gridx = -1;
         for (int i = 0; i < listeQCMetudiant.size(); i++) {
-            if (contrainte.gridx < 5) {
-
-            }
             if (contrainte.gridx < 5) {
                 contrainte.gridx++;
             } else {
