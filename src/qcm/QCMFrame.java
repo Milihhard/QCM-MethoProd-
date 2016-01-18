@@ -67,6 +67,14 @@ public class QCMFrame extends JFrame implements ActionListener {
             contrainte.insets = new Insets(10, 5, 20, 5);
             contrainte.gridy++;
             pan.add(enter, contrainte);
+            enter.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    RemplirQCM Formulaire = new RemplirQCM(2);
+                    Formulaire.setVisible(true);
+                }
+            });
         }
         
         
