@@ -200,9 +200,9 @@ public class SQL {
     public static ArrayList<QCM> recherchQCMbyUserId(int idUser) {
         ArrayList<QCM> retour = new ArrayList();
         try {
-            ResultSet rs = lien.executeQuery("SELECT * FROM EtuQcm eq INNER JOIN Qcm   q ON eq. id = q.id where identifiant = " + idUser);
-            while (rs.next()){
-                retour.add(new QCM(rs.getString("title"), rs.getInt("id"), rs.getFloat("note")));            
+            ResultSet rs = lien.executeQuery("SELECT titre, eq.id, note FROM EtuQcm eq INNER JOIN Qcm q ON eq.id = q.id where identifiant = " + idUser);
+            while (rs.next()) {
+                retour.add(new QCM(rs.getString("titre"), rs.getInt("id"), rs.getFloat("note")));
             }
             return retour;
         } catch (SQLException ex) {

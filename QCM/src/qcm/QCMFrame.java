@@ -56,7 +56,7 @@ public class QCMFrame extends JFrame implements ActionListener {
             pan = new JPanel();
             pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             title = new JLabel(str);
-            if (nte == null) {
+            if (nte == -1) {
                 enter = new JButton("Remplir le QCM");
             } else {
                 note = new JLabel("note : " + Float.toString(nte));
@@ -190,8 +190,6 @@ public class QCMFrame extends JFrame implements ActionListener {
 
         contrainte.gridy++;
         contrainte.insets = new Insets(10, 5, 5, 5);
-        int cmpx = 0;
-        int cmpy = 0;
         for (int i = 0; i < listeQCMetudiant.size(); i++) {
             if (contrainte.gridx < 5) {
 
