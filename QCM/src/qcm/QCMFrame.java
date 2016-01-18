@@ -52,14 +52,14 @@ public class QCMFrame extends JFrame implements ActionListener {
         JLabel title, note;
         JButton enter;
 
-        public QCMEtudiant(String str, Float nte) {
+        public QCMEtudiant(final QCM qcm) {
             pan = new JPanel();
             pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-            title = new JLabel(str);
-            if (nte == -1) {
+            title = new JLabel(qcm.getTitle());
+            if (qcm.getNote() == -1) {
                 enter = new JButton("Remplir le QCM");
             } else {
-                note = new JLabel("note : " + Float.toString(nte));
+                note = new JLabel("note : " + Float.toString(qcm.getNote()));
             }
             GridBagConstraints contrainte = new GridBagConstraints();
             pan.setLayout(new GridBagLayout());
@@ -69,8 +69,15 @@ public class QCMFrame extends JFrame implements ActionListener {
             pan.add(title, contrainte);
             contrainte.insets = new Insets(10, 5, 20, 5);
             contrainte.gridy++;
-            if (nte == null) {
+            if (qcm.getNote() == -1) {
                 pan.add(enter, contrainte);
+                enter.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        RemplirQCM rqcm = new RemplirQCM(qcm.getID());
+                    }
+                });
             } else {
                 pan.add(note, contrainte);
             }
@@ -180,7 +187,7 @@ public class QCMFrame extends JFrame implements ActionListener {
         listeQCMetudiant = new ArrayList();
         ArrayList<QCM> qcms = SQL.recherchQCMbyUserId(user.getId());
         for (QCM qcm : qcms) {
-            listeQCMetudiant.add(new QCMEtudiant(qcm.getTitle(), qcm.getNote()));
+            listeQCMetudiant.add(new QCMEtudiant(qcm));
         }
         /*
          listeQCMetudiant.add(new QCMEtudiant("niah", (float) 5));
