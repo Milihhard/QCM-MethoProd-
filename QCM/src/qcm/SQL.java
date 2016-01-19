@@ -94,6 +94,8 @@ public class SQL {
             System.out.println("bug");
         }
     }
+    
+ 
 
     public static void ChargerSQL(String file) {
 
@@ -114,6 +116,52 @@ public class SQL {
 
         }
 
+    }
+    
+    public static ArrayList getListQuest(int idQCM){
+        ArrayList listQuest = new ArrayList();
+   
+        try {
+            
+            ResultSet rs = lien.executeQuery("Select * from Question where id like \"" + idQCM + "\"");
+            while(rs.next()){
+                Question quest = new Question(rs.getInt("idQ"),rs.getInt("id"),rs.getString("question"));
+                listQuest.add(quest);
+            }
+            if (rs.getRow() != 0) {
+                return null;
+            } 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
+            return null;
+        }
+        return listQuest;
+    }
+    
+    public static ArrayList getListRep(int idQuest){
+        ArrayList listRep = new ArrayList();
+   
+        try {
+            
+            ResultSet rs = lien.executeQuery("Select * from Reponse where idQ like \"" + idQuest + "\"");
+            while(rs.next()){
+                Reponse rep = new Reponse(rs.getInt("idR"),rs.getInt("idQ"),rs.getString("Reponse"));
+                listRep.add(rep);
+            }
+            if (rs.getRow() != 0) {
+                return null;
+            } 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
+            return null;
+        }
+        return listRep;
     }
 
     public static ResultSet giveSQL(String commande) {

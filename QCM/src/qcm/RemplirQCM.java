@@ -8,6 +8,9 @@ package qcm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.ArrayList;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,18 +22,22 @@ import javax.swing.JPanel;
  * @author p1406269
  */
 public class RemplirQCM extends JFrame{
+   public SQL SQL;
   private JPanel container = new JPanel();
 
   private JCheckBox rep = new JCheckBox();
 
-  private JLabel label = new JLabel("Une ComboBox");
-
+  
+  ArrayList<Question> listQuest;
+  ArrayList<Reponse> listRep;
+  
 
   public RemplirQCM(int idQCM){
+     listQuest=SQL.getListQuest(idQCM);
+     
+    this.setTitle("QCM");
 
-    this.setTitle("Animation");
-
-    this.setSize(300, 300);
+    this.setSize(600, 600);
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -38,22 +45,41 @@ public class RemplirQCM extends JFrame{
 
     container.setBackground(Color.white);
 
-    container.setLayout(new BorderLayout());
+    this.setLayout(new GridBagLayout());
+        GridBagConstraints cont = new GridBagConstraints();
 
-    rep.setPreferredSize(new Dimension(100, 20));
+       
+    int y=0;
+    for(int i=0;i<SQL.getListQuest(idQCM).size();i++){
+        
+        JLabel label = new JLabel(listQuest.get(i).toString());
+        cont.gridx=0;
+        cont.gridy=y;
+        container.add(label,cont);
+        y++;
+        listRep=SQL.getListRep(listQuest.get(i).id);
+        
+        for(int j=0;j<listRep.size();j++ ){
+            
+            JLabel label2 = new JLabel(listRep.get(j).toString());
+            cont.gridx=1;
+            cont.gridy=y;
+            container.add(label2,cont);
+            
+            cont.gridx=2;
+            cont.gridy=y;
+            container.add(rep,cont);
+            y++;
+        }
+    }
+      this.setContentPane(container);
+
+    this.setVisible(true);  
+    }
 
 
-    JPanel top = new JPanel();
-
-    top.add(label);
-
-    top.add(rep);
-
-    container.add(top, BorderLayout.NORTH);
-
-    this.setContentPane(container);
-
-    this.setVisible(true);            
+    
 
   }
-}
+  
+  
