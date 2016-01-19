@@ -90,12 +90,12 @@ public class QCMFrame extends JFrame implements ActionListener {
         JButton voir;
         JButton edit;
 
-        public QCMProf(final QCM qcm, final JFrame owner) {
+        public QCMProf(final QCM qcm) {
             pan = new JPanel();
             pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             title = new JLabel(qcm.getTitle());
-            voir = new JButton("Voir le QCM");
-            edit = new JButton("Modifier/Supprimer");
+            voir = new JButton("Voir/Modifier");
+            edit = new JButton("Supprimer");
             GridBagConstraints contraintes = new GridBagConstraints();
             pan.setLayout(new GridBagLayout());
             contraintes.gridx = 0;
@@ -111,13 +111,7 @@ public class QCMFrame extends JFrame implements ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     SQL.suppQCM(qcm.getID());
-                    GridBagConstraints contrainte = new GridBagConstraints();
-                    owner.setLayout(new GridBagLayout());
-                    contrainte.gridx = 0;
-                    contrainte.gridy = 0;
-                    initGlobal(contrainte);
-                    initEnseignant(contrainte);
-                    owner.pack();
+                    init(user);
                 }
             });
         }
@@ -125,10 +119,15 @@ public class QCMFrame extends JFrame implements ActionListener {
     }
 
     public QCMFrame() {
+        
         this.setTitle("QCM");
-        pano = new JPanel();
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Connexion b = new Connexion(this);
+        user = b.showDialog();
+        init(user);
+    }
+    private void init(Utilisateur user){
+        pano = new JPanel();
 
         welcome = new JLabel("niah");
         welcome.setVisible(false);
@@ -136,56 +135,54 @@ public class QCMFrame extends JFrame implements ActionListener {
 
         GridBagConstraints contrainte = new GridBagConstraints();
         this.setLayout(new GridBagLayout());
-
-        Connexion b = new Connexion(this);
-        user = b.showDialog();
         if (user != null) {
-            initGlobal(contrainte);
+            initGlobal(contrainte, pano);
             switch (user.getType()) {
                 case Admin:
-                    initAdmin(contrainte);
+                    initAdmin(contrainte, pano);
                     break;
                 case Enseignant:
-                    initEnseignant(contrainte);
+                    initEnseignant(contrainte, pano);
                     break;
                 case Etudiant:
-                    initEtudiant(contrainte);
+                    initEtudiant(contrainte, pano);
                     break;
             }
         } else {
             this.setVisible(false);
             this.dispose();
         }
+        this.setContentPane(pano);
         this.pack();
     }
 
-    private void initGlobal(GridBagConstraints contrainte) {
+    private void initGlobal(GridBagConstraints contrainte, JPanel pano) {
         welcome = new JLabel("Bonjour " + user.getPrenom() + " " + user.getNom() + "(" + user.getId() + ")");
         contrainte.fill = GridBagConstraints.BOTH;
         contrainte.gridx = 0;
         contrainte.gridy = 0;
-        this.add(welcome, contrainte);
+        pano.add(welcome, contrainte);
     }
 
-    private void initAdmin(GridBagConstraints contrainte) {
+    private void initAdmin(GridBagConstraints contrainte, JPanel pano) {
         ajoutAdmin = new JButton("Ajouter un utilisateur");
         signalAdmin = new JLabel[1];
         signalAdmin[0] = new JLabel();
         contrainte.gridx = 0;
         contrainte.gridy = 1;
-        this.add(ajoutAdmin, contrainte);
+        pano.add(ajoutAdmin, contrainte);
         contrainte.gridx++;
-        this.add(signalAdmin[0], contrainte);
+        pano.add(signalAdmin[0], contrainte);
 
         ajoutAdmin.addActionListener(this);
     }
 
-    private void initEnseignant(GridBagConstraints contrainte) {
+    private void initEnseignant(GridBagConstraints contrainte, JPanel pano) {
 
         listeQCMprof = new ArrayList();
         ArrayList<QCM> qcms = SQL.recherchQCMbyProfId(user.getId());
         for (QCM qcm : qcms) {
-            listeQCMprof.add(new QCMProf(qcm, this));
+            listeQCMprof.add(new QCMProf(qcm));
         }
         contrainte.gridy++;
         contrainte.insets = new Insets(10, 5, 5, 5);
@@ -193,7 +190,7 @@ public class QCMFrame extends JFrame implements ActionListener {
         creer = new JButton("Créer un QCM");
         contrainte.gridx = 0;
         contrainte.gridy = 0;
-        this.add(creer, contrainte);
+        pano.add(creer, contrainte);
         contrainte.gridy++;
         contrainte.gridx = -1;
         for (int i = 0; i < listeQCMprof.size(); i++) {
@@ -203,17 +200,13 @@ public class QCMFrame extends JFrame implements ActionListener {
                 contrainte.gridx = 0;
                 contrainte.gridy++;
             }
-            this.add(listeQCMprof.get(i).pan, contrainte);
+            pano.add(listeQCMprof.get(i).pan, contrainte);
 
         }
         contrainte.insets = new Insets(10, 5, 5, 5);
-        for (int i = 0; i < listeQCMprof.size(); i++) {
-            contrainte.gridx++;
-            this.add(listeQCMprof.get(i).pan, contrainte);
-        }
 
     }
-    private void initEtudiant(GridBagConstraints contrainte) {
+    private void initEtudiant(GridBagConstraints contrainte, JPanel pano) {
 
         listeQCMetudiant = new ArrayList();
         ArrayList<QCM> qcms = SQL.recherchQCMbyUserId(user.getId());
@@ -229,6 +222,7 @@ public class QCMFrame extends JFrame implements ActionListener {
         contrainte.gridy++;
         contrainte.insets = new Insets(10, 5, 5, 5);
         contrainte.gridx = -1;
+        contrainte.gridy++;
         for (int i = 0; i < listeQCMetudiant.size(); i++) {
             if (contrainte.gridx < 5) {
                 contrainte.gridx++;
@@ -236,7 +230,7 @@ public class QCMFrame extends JFrame implements ActionListener {
                 contrainte.gridx = 0;
                 contrainte.gridy++;
             }
-            this.add(listeQCMetudiant.get(i).pan, contrainte);
+            pano.add(listeQCMetudiant.get(i).pan, contrainte);
 
         }
         /*
