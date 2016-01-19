@@ -67,13 +67,13 @@ public class RemplirQCM extends JFrame{
             
             
             Reponses.add(new JLabel(listRep.get(j).toString()));
-            cont.gridx=1;
+            cont.gridx=2;
             cont.gridy++;
             container.add(Reponses.get(j),cont);
             
            
             Rep.add(new JCheckBox());
-            cont.gridx=2;
+            cont.gridx=1;
             container.add(Rep.get(j),cont);
            
         }
