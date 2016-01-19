@@ -25,12 +25,15 @@ public class RemplirQCM extends JFrame{
    public SQL SQL;
   private JPanel container = new JPanel();
 
-  private JCheckBox rep = new JCheckBox();
+  
 
   
   ArrayList<Question> listQuest;
   ArrayList<Reponse> listRep;
   
+  ArrayList<JLabel> Questions= new ArrayList();
+  
+
 
   public RemplirQCM(int idQCM){
      listQuest=SQL.getListQuest(idQCM);
@@ -44,31 +47,35 @@ public class RemplirQCM extends JFrame{
 
     container.setBackground(Color.white);
 
-    this.setLayout(new GridBagLayout());
-        GridBagConstraints cont = new GridBagConstraints();
+    container.setLayout(new GridBagLayout());
+    GridBagConstraints cont = new GridBagConstraints();
 
        
-    int y=0;
+   
     for(int i=0;i<SQL.getListQuest(idQCM).size();i++){
         
-        JLabel label = new JLabel(listQuest.get(i).toString());
-        cont.gridx=0;
-        cont.gridy=y;
-        container.add(label,cont);
-        y++;
-        listRep=SQL.getListRep(listQuest.get(i).id);
         
+        Questions.add(new JLabel(listQuest.get(i).toString()));
+        cont.gridx=0;
+        cont.gridy++;
+        container.add(Questions.get(i),cont);
+        
+        listRep=SQL.getListRep(listQuest.get(i).id);
+        ArrayList<JLabel> Reponses = new ArrayList();
+        ArrayList<JCheckBox> Rep = new ArrayList();
         for(int j=0;j<listRep.size();j++ ){
             
-            JLabel label2 = new JLabel(listRep.get(j).toString());
-            cont.gridx=1;
-            cont.gridy=y;
-            container.add(label2,cont);
             
+            Reponses.add(new JLabel(listRep.get(j).toString()));
+            cont.gridx=1;
+            cont.gridy++;
+            container.add(Reponses.get(j),cont);
+            
+           
+            Rep.add(new JCheckBox());
             cont.gridx=2;
-            cont.gridy=y;
-            container.add(rep,cont);
-            y++;
+            container.add(Rep.get(j),cont);
+           
         }
     }
       this.setContentPane(container);
@@ -76,8 +83,7 @@ public class RemplirQCM extends JFrame{
     this.setVisible(true);  
     }
 
-
-    
+  
 
   }
   
