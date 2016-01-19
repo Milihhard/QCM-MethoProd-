@@ -94,8 +94,6 @@ public class SQL {
             System.out.println("bug");
         }
     }
-    
- 
 
     public static void ChargerSQL(String file) {
 
@@ -117,21 +115,21 @@ public class SQL {
         }
 
     }
-    
-    public static ArrayList getListQuest(int idQCM){
+
+    public static ArrayList getListQuest(int idQCM) {
         ArrayList listQuest = new ArrayList();
-   
+
         try {
-            
+
             ResultSet rs = lien.executeQuery("Select * from Question where id like \"" + idQCM + "\"");
-            while(rs.next()){
-                Question quest = new Question(rs.getInt("idQ"),rs.getInt("id"),rs.getString("question"));
+            while (rs.next()) {
+                Question quest = new Question(rs.getInt("idQ"), rs.getInt("id"), rs.getString("question"));
                 listQuest.add(quest);
             }
             if (rs.getRow() != 0) {
                 return null;
-            } 
-            
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
@@ -140,21 +138,21 @@ public class SQL {
         }
         return listQuest;
     }
-    
-    public static ArrayList getListRep(int idQuest){
+
+    public static ArrayList getListRep(int idQuest) {
         ArrayList listRep = new ArrayList();
-   
+
         try {
-            
+
             ResultSet rs = lien.executeQuery("Select * from Reponse where idQ like \"" + idQuest + "\"");
-            while(rs.next()){
-                Reponse rep = new Reponse(rs.getInt("idR"),rs.getInt("idQ"),rs.getString("Reponse"));
+            while (rs.next()) {
+                Reponse rep = new Reponse(rs.getInt("idR"), rs.getInt("idQ"), rs.getString("Reponse"));
                 listRep.add(rep);
             }
             if (rs.getRow() != 0) {
                 return null;
-            } 
-            
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("mauvais SQL");
@@ -261,37 +259,56 @@ public class SQL {
 
         }
     }
-    
-    public static void suppQuestion(int id){
-    	try {
-        	lien = cnx.createStatement();
-        	String requete = "DELETE * FROM Qcm WHERE idQ =  "+ id +"";
-        	lien.executeQuery(requete);
-    	} catch (SQLException ex) {
-        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
-    	}
-       	 
-	}
-    
-	public static void suppReponse(int id){
-    	try {
-        	lien = cnx.createStatement();
-        	String requete = "DELETE * FROM Qcm WHERE idQ =  "+ id +"";
-        	lien.executeQuery(requete);
-    	} catch (SQLException ex) {
-        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
-    	}
-       	 
-	}
-    
-	public static void suppQCM(int id){
-    	try {
-        	lien = cnx.createStatement();
-        	String requete = "DELETE * FROM Qcm WHERE id =  "+ id +"";
-        	lien.executeQuery(requete);
-    	} catch (SQLException ex) {
-        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
-    	}
-       	 
-	}
+
+    public static ArrayList<QCM> recherchQCMbyProfId(int idUser) {
+        ArrayList<QCM> retour = new ArrayList();
+        try {
+            ResultSet rs = lien.executeQuery("SELECT titre, id FROM Qcm q where identifiantEns = " + idUser);
+            while (rs.next()) {
+                retour.add(new QCM(rs.getString("titre"), rs.getInt("id"), 0));
+            }
+            return retour;
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("mauvais SQL");
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex);
+            return null;
+
+        }
+    }
+
+    public static void suppQuestion(int id) {
+        try {
+            suppReponse(id);
+            lien = cnx.createStatement();
+            String requete = "DELETE FROM Question WHERE id =  " + id + "";
+            lien.executeQuery(requete);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void suppReponse(int id) {
+        try {
+            lien = cnx.createStatement();
+            String requete = "DELETE FROM Reponse WHERE id =  " + id + "";
+            lien.executeQuery(requete);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void suppQCM(int id) {
+        try {
+            suppQuestion(id);
+            lien = cnx.createStatement();
+            String requete = "DELETE FROM Qcm WHERE id =  " + id + "";
+            lien.executeQuery(requete);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

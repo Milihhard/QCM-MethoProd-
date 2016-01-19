@@ -29,7 +29,6 @@ import user.Utilisateur;
 public class QCMFrame extends JFrame implements ActionListener {
 
     //global
-    
     private JLabel welcome;
     Utilisateur user;
     JPanel pano;
@@ -45,9 +44,8 @@ public class QCMFrame extends JFrame implements ActionListener {
     //etudiant
     ArrayList<QCMEtudiant> listeQCMetudiant;
 
+    public class QCMEtudiant {
 
-    public class QCMEtudiant{
-        
         JPanel pan;
         JLabel title, note;
         JButton enter;
@@ -84,16 +82,18 @@ public class QCMFrame extends JFrame implements ActionListener {
         }
 
     }
-    public class QCMProf{
+
+    public class QCMProf {
+
         JPanel pan;
         JLabel title;
         JButton voir;
         JButton edit;
 
-        public QCMProf(String str){
+        public QCMProf(final QCM qcm, final JFrame owner) {
             pan = new JPanel();
-            pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0,0,0)));
-            title = new JLabel(str);
+            pan.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            title = new JLabel(qcm.getTitle());
             voir = new JButton("Voir le QCM");
             edit = new JButton("Modifier/Supprimer");
             GridBagConstraints contraintes = new GridBagConstraints();
@@ -105,10 +105,25 @@ public class QCMFrame extends JFrame implements ActionListener {
             pan.add(voir, contraintes);
             contraintes.gridy++;
             pan.add(edit, contraintes);
+
+            edit.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    SQL.suppQCM(qcm.getID());
+                    GridBagConstraints contrainte = new GridBagConstraints();
+                    owner.setLayout(new GridBagLayout());
+                    contrainte.gridx = 0;
+                    contrainte.gridy = 0;
+                    initGlobal(contrainte);
+                    initEnseignant(contrainte);
+                    owner.pack();
+                }
+            });
         }
 
-            
     }
+
     public QCMFrame() {
         this.setTitle("QCM");
         pano = new JPanel();
@@ -166,22 +181,38 @@ public class QCMFrame extends JFrame implements ActionListener {
     }
 
     private void initEnseignant(GridBagConstraints contrainte) {
+
         listeQCMprof = new ArrayList();
-        listeQCMprof.add(new QCMProf("Rouflaquettes"));
-        listeQCMprof.add(new QCMProf("Raclette"));
-        contrainte.insets = new Insets(10, 5, 5, 5);
-        for(int i = 0; i < listeQCMprof.size(); i++){
-            contrainte.gridx++;
-            this.add(listeQCMprof.get(i).pan,contrainte);
+        ArrayList<QCM> qcms = SQL.recherchQCMbyProfId(user.getId());
+        for (QCM qcm : qcms) {
+            listeQCMprof.add(new QCMProf(qcm, this));
         }
+        contrainte.gridy++;
+        contrainte.insets = new Insets(10, 5, 5, 5);
         contrainte.insets = new Insets(0, 0, 0, 0);
         creer = new JButton("Créer un QCM");
-        contrainte.gridx = 1;
-        contrainte.gridy = 1;
+        contrainte.gridx = 0;
+        contrainte.gridy = 0;
         this.add(creer, contrainte);
+        contrainte.gridy++;
+        contrainte.gridx = -1;
+        for (int i = 0; i < listeQCMprof.size(); i++) {
+            if (contrainte.gridx < 5) {
+                contrainte.gridx++;
+            } else {
+                contrainte.gridx = 0;
+                contrainte.gridy++;
+            }
+            this.add(listeQCMprof.get(i).pan, contrainte);
+
+        }
+        contrainte.insets = new Insets(10, 5, 5, 5);
+        for (int i = 0; i < listeQCMprof.size(); i++) {
+            contrainte.gridx++;
+            this.add(listeQCMprof.get(i).pan, contrainte);
+        }
 
     }
-
     private void initEtudiant(GridBagConstraints contrainte) {
 
         listeQCMetudiant = new ArrayList();
@@ -209,12 +240,12 @@ public class QCMFrame extends JFrame implements ActionListener {
 
         }
         /*
-        this.add(listeQCMetudiant.get(0).pan, contrainte);
-        contrainte.gridx++;
-        this.add(listeQCMetudiant.get(1).pan, contrainte);
-        contrainte.gridx++;
-        this.add(listeQCMetudiant.get(2).pan, contrainte);
-                */
+         this.add(listeQCMetudiant.get(0).pan, contrainte);
+         contrainte.gridx++;
+         this.add(listeQCMetudiant.get(1).pan, contrainte);
+         contrainte.gridx++;
+         this.add(listeQCMetudiant.get(2).pan, contrainte);
+         */
         contrainte.insets = new Insets(0, 0, 0, 0);
     }
 
