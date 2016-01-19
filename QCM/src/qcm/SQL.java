@@ -261,4 +261,37 @@ public class SQL {
 
         }
     }
+    
+    public static void suppQuestion(int id){
+    	try {
+        	lien = cnx.createStatement();
+        	String requete = "DELETE * FROM Qcm WHERE idQ =  "+ id +"";
+        	lien.executeQuery(requete);
+    	} catch (SQLException ex) {
+        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+    	}
+       	 
+	}
+    
+	public static void suppReponse(int id){
+    	try {
+        	lien = cnx.createStatement();
+        	String requete = "DELETE * FROM Qcm WHERE idQ =  "+ id +"";
+        	lien.executeQuery(requete);
+    	} catch (SQLException ex) {
+        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+    	}
+       	 
+	}
+    
+	public static void suppQCM(int id){
+    	try {
+        	lien = cnx.createStatement();
+        	String requete = "DELETE * FROM Qcm WHERE id =  "+ id +"";
+        	lien.executeQuery(requete);
+    	} catch (SQLException ex) {
+        	Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+    	}
+       	 
+	}
 }
